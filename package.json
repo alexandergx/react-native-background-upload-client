@@ -1,0 +1,77 @@
+{
+  "name": "react-native-graphql-background-upload",
+  "version": "1.0.0",
+  "description": "Handle multipart file uploads to your Graphql server from your React Native app.",
+  "main": "src/index.ts",
+  "scripts": {
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://https://github.com/alexandergx/react-native-graphql-background-upload.git"
+  },
+  "keywords": [
+    "NSURLSession",
+    "UploadService",
+    "graphql",
+    "background",
+    "upload",
+    "react-native",
+    "react"
+  ],
+  "peerDependencies": {
+    "react": "*",
+    "react-native": ">=0.47.0"
+  },
+  "author": "https://github.com/alexandergx",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://https://github.com/alexandergx/react-native-graphql-background-upload/issues"
+  },
+  "homepage": "https://https://github.com/alexandergx/react-native-graphql-background-upload#readme",
+  "devDependencies": {
+    "@react-native-community/eslint-config": "^0.0.7",
+    "@semantic-release/commit-analyzer": "^6.3.3",
+    "@semantic-release/git": "^7.0.18",
+    "@semantic-release/github": "^5.5.5",
+    "@semantic-release/npm": "^5.3.4",
+    "@semantic-release/release-notes-generator": "^7.3.5",
+    "@types/extract-files": "^8.1.3",
+    "@types/react-native": "^0.64.0",
+    "eslint": "^6.8.0",
+    "husky": "^4.2.3",
+    "lint-staged": "^10.0.8",
+    "semantic-release": "^15.13.31"
+  },
+  "release": {
+    "plugins": [
+      "@semantic-release/commit-analyzer",
+      "@semantic-release/npm",
+      [
+        "@semantic-release/github",
+        {
+          "assets": [
+            "package.json"
+          ],
+          "message": "chore(release): ${nextRelease.version} [skip ci]\n\n${nextRelease.notes}"
+        }
+      ],
+      [
+        "@semantic-release/git",
+        {
+          "assets": [
+            "package.json"
+          ],
+          "message": "chore(release): ${nextRelease.version} [skip ci]\n\n${nextRelease.notes}"
+        }
+      ],
+      "@semantic-release/release-notes-generator"
+    ]
+  },
+  "dependencies": {
+    "@apollo/client": "^3.11.1",
+    "extract-files": "^11.0.0",
+    "graphql": "^16.9.0",
+    "install": "^0.13.0",
+    "npm": "^10.8.2"
+  }
+}
