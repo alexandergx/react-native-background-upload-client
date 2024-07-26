@@ -1,5 +1,6 @@
 import { ApolloLink } from '@apollo/client/core'
 import { UploadLinkOptions } from './src'
+import { EventSubscription } from 'react-native'
 
 declare module "react-native-graphql-background-upload" {
 
@@ -114,6 +115,17 @@ declare module "react-native-graphql-background-upload" {
 
 
     export default class Upload {
+        static startUpload(options: UploadOptions | MultipartUploadOptions): Promise<uploadId>
+        static addListener(event: 'progress', uploadId: uploadId | null, callback: (data: ProgressData ) => void): EventSubscription
+        static addListener(event: 'error', uploadId: uploadId | null, callback: (data: ErrorData) => void): EventSubscription
+        static addListener(event: 'completed', uploadId: uploadId | null, callback: (data: CompletedData) => void): EventSubscription
+        static addListener(event: 'cancelled', uploadId: uploadId | null, callback: (data: EventData) => void): EventSubscription
+        static getFileInfo(path: string): Promise<FileInfo>
+        static cancelUpload(uploadId: uploadId): Promise<boolean>
+        static canSuspendIfBackground(): void
+        static getRemainingBgTime(): Promise<number>
+        static beginBackgroundTask(): Promise<number | null>
+        static endBackgroundTask(id: number): void
         static createUploadLink(options: UploadLinkOptions): ApolloLink
     }
 

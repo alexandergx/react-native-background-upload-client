@@ -22,7 +22,6 @@ export type NotificationArgs = {
 
 export type StartUploadArgs = {
   url: string,
-  // Optional, if not given, must be multipart, can be used to upload form data
   path?: string,
   method?: 'PUT' | 'POST' | 'GET' | 'PATCH' | 'DELETE',
   // Optional, because raw is default
@@ -41,17 +40,6 @@ const eventPrefix = 'RNGraphqlFileUploader-';
 
 const eventEmitter = new NativeEventEmitter(NativeModule);
 
-// add event listeners so they always fire on the native side
-// no longer needed.
-// if (Platform.OS === 'ios') {
-//   const identity = () => {};
-//   eventEmitter.addListener(eventPrefix + 'progress', identity);
-//   eventEmitter.addListener(eventPrefix + 'error', identity);
-//   eventEmitter.addListener(eventPrefix + 'cancelled', identity);
-//   eventEmitter.addListener(eventPrefix + 'completed', identity);
-//   eventEmitter.addListener(eventPrefix + 'bgExpired', identity);
-// }
-
 /*
 Gets file information for the path specified.
 Example valid path is:
@@ -63,7 +51,7 @@ Returns an object:
 
 The promise should never be rejected.
 */
-export const getFileInfo = (path: string): Promise<Object> => {
+export const getFileInfo = async (path: string): Promise<Object> => {
   return NativeModule.getFileInfo(path).then((data: any) => {
     if (data.size) {
       // size comes back as a string on android so we convert it here.  if it's already a number this won't hurt anything
@@ -88,7 +76,6 @@ Options object:
 Returns a promise with the string ID of the upload.  Will reject if there is a connection problem, the file doesn't exist, or there is some other problem.
 
 It is recommended to add listeners in the .then of this promise.
-
 */
 export const startUpload = (options: StartUploadArgs): Promise<string> =>
   NativeModule.startUpload(options);
@@ -103,7 +90,6 @@ Event "cancelled" will be fired when upload is cancelled.
 
 Returns a promise with boolean true if operation was successfully completed.
 Will reject if there was an internal error or ID format is invalid.
-
 */
 export const cancelUpload = (cancelUploadId: string): Promise<boolean> => {
   if (typeof cancelUploadId !== 'string') {
@@ -208,6 +194,9 @@ const createUploadPromise = async (options: MultipartUploadOptions, callbacks?: 
   })
 }
 
+/*
+Replaces Apollo createUploadLink
+*/
 export const createUploadLink: (options: UploadLinkOptions) => ApolloLink = ({
   uri,
   isExtractableFile: customIsExtractableFile = isExtractableFile,
@@ -306,5 +295,13 @@ export const createUploadLink: (options: UploadLinkOptions) => ApolloLink = ({
 }
 
 export default {
+  startUpload,
+  cancelUpload,
+  addListener,
+  getFileInfo,
+  canSuspendIfBackground,
+  getRemainingBgTime,
+  beginBackgroundTask,
+  endBackgroundTask,
   createUploadLink,
 };
