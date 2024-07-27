@@ -1,11 +1,9 @@
-import { ApolloLink, RequestHandler } from '@apollo/client/core'
-import { UploadLinkOptions } from './src'
-import { EventSubscription } from 'react-native'
-
 declare module "react-native-background-upload-client" {
+    import { ApolloLink, RequestHandler } from '@apollo/client/core'
+    import { EventSubscription } from 'react-native'
 
     export interface EventData {
-        id: string;
+        id: string
     }
 
     export interface ProgressData extends EventData {
@@ -21,7 +19,8 @@ declare module "react-native-background-upload-client" {
         responseCode: number
         responseBody: string
     }
-    export type FileInfo = {
+
+    export interface FileInfo {
         name: string
         exists: boolean
         size?: number
@@ -29,8 +28,15 @@ declare module "react-native-background-upload-client" {
         mimeType?: string
     }
 
+    export interface UploadLinkOptions {
+        uri: string
+        isExtractableFile?: (file: any) => boolean
+        includeExtensions?: boolean
+        headers?: Record<string, string>
+      }
 
-    export type NotificationOptions = {
+
+    export interface NotificationOptions {
         /**
          * Enable or diasable notifications. Works only on Android version < 8.0 Oreo. On Android versions >= 8.0 Oreo is required by Google's policy to display a notification when a background service run  { enabled: true }
          */
@@ -81,47 +87,58 @@ declare module "react-native-background-upload-client" {
         onCancelledMessage: string
     }
 
+    export enum UploadListenerEvent {
+        Progress = 'progress',
+        Error = 'error',
+        Cancelled = 'cancelled',
+        Completed = 'completed',
+    }
+
+    export enum HttpMethod {
+        Post = 'POST',
+        Get = 'GET',
+        Put = 'PUT',
+        Patch = 'PATCH',
+        Delete = 'DELETE'
+    }
+
+    export enum ContentType {
+        Raw = 'raw',
+        Multipart = 'multipart',
+    }
+
     export interface UploadOptions {
-        url: string;
-        path: string;
-        type?: 'raw' | 'multipart';
-        method?: 'POST' | 'GET' | 'PUT' | 'PATCH' | 'DELETE';
-        customUploadId?: string;
-        headers?: {
-            [index: string]: string
-        };
+        url: string
+        path: string
+        type?: ContentType.Raw | ContentType.Multipart
+        method?: HttpMethod.Post | HttpMethod.Get | HttpMethod.Put | HttpMethod.Patch | HttpMethod.Delete
+        customUploadId?: string
+        headers?: { [index: string]: string, }
         // Android notification settings
         notification?: Partial<NotificationOptions>
         /**
          * AppGroup defined in XCode for extensions. Necessary when trying to upload things via this library
          * in the context of ShareExtension.
          */
-        appGroup?: string;
+        appGroup?: string
         // Necessary only for multipart type upload
         field?: string
     }
 
     export interface MultipartUploadOptions extends UploadOptions {
-        type: 'multipart'
+        type: ContentType.Multipart
         field: string
-        parameters?: {
-            [index: string]: string
-        }
+        parameters?: { [index: string]: string, }
     }
 
-    type uploadId = string
-
-    export type UploadListenerEvent = 'progress' | 'error' | 'completed' | 'cancelled'
-
-
     export default class Upload {
-        static startUpload(options: UploadOptions | MultipartUploadOptions): Promise<uploadId>
-        static addListener(event: 'progress', uploadId: uploadId | null, callback: (data: ProgressData ) => void): EventSubscription
-        static addListener(event: 'error', uploadId: uploadId | null, callback: (data: ErrorData) => void): EventSubscription
-        static addListener(event: 'completed', uploadId: uploadId | null, callback: (data: CompletedData) => void): EventSubscription
-        static addListener(event: 'cancelled', uploadId: uploadId | null, callback: (data: EventData) => void): EventSubscription
+        static startUpload(options: UploadOptions | MultipartUploadOptions): Promise<string>
+        static addListener(event: UploadListenerEvent.Progress, uploadId: string | null, callback: (data: ProgressData ) => void): EventSubscription
+        static addListener(event: UploadListenerEvent.Error, uploadId: string | null, callback: (data: ErrorData) => void): EventSubscription
+        static addListener(event: UploadListenerEvent.Completed, uploadId: string | null, callback: (data: CompletedData) => void): EventSubscription
+        static addListener(event: UploadListenerEvent.Cancelled, uploadId: string | null, callback: (data: EventData) => void): EventSubscription
         static getFileInfo(path: string): Promise<FileInfo>
-        static cancelUpload(uploadId: uploadId): Promise<boolean>
+        static cancelUpload(uploadId: string): Promise<boolean>
         static canSuspendIfBackground(): void
         static getRemainingBgTime(): Promise<number>
         static beginBackgroundTask(): Promise<number | null>
@@ -129,6 +146,5 @@ declare module "react-native-background-upload-client" {
         static createUploadLink(options: UploadLinkOptions): ApolloLink | RequestHandler | undefined
     }
 
-    export const createUploadLink: typeof Upload.createUploadLink;
-
+    export const createUploadLink: typeof Upload.createUploadLink
 }
