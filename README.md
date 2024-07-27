@@ -74,11 +74,19 @@ const apolloClient = new ApolloClient({
 
 function MyReactComponent() {
   // Define and use your GraphQL mutation within a functional component
-  const [uploadFile] = useMutation(gql`mutation($file: Upload) { uploadFile(input: { image: $file }) }`)
+  const [uploadFile] = useMutation(gql`
+    mutation($file: Upload) {
+      uploadFile(input: { image: $file })
+    }
+  `)
 
   // Upload the file to your server within an asynchronous function
   const handleUpload = async () => {
-    const response = await uploadFile({ variables: { file: new ReactNativeFile({ uri: 'path-to-file', name: 'file', }), }, })
+    const response = await uploadFile({
+      variables: {
+        file: new ReactNativeFile({ uri: 'path-to-file', name: 'file', }),
+      },
+    })
   }
 
   return (
