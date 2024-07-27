@@ -2,7 +2,7 @@ import { ApolloLink, RequestHandler } from '@apollo/client/core'
 import { UploadLinkOptions } from './src'
 import { EventSubscription } from 'react-native'
 
-declare module "react-native-background-apollo-upload-client" {
+declare module "react-native-background-upload-client" {
 
     export interface EventData {
         id: string;
