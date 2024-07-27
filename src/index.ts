@@ -152,7 +152,7 @@ Returns an object:
 
 The promise should never be rejected.
 */
-export const getFileInfo = (path: string): Promise<Object> => {
+export const getFileInfo = async (path: string): Promise<Object> => {
   return NativeModule.getFileInfo(path).then((data: any) => {
     if (data.size) {
       // size comes back as a string on android so we convert it here. if it's already a number this won't hurt anything
