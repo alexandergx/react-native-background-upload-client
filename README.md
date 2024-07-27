@@ -55,7 +55,7 @@ import { createUploadLink, } from 'react-native-background-upload-client'
 
 This section provides an in-depth example of setting up the Apollo Client and using `react-native-background-upload-client` to upload a file to your Graphql server from your React Native app. Ensure you have these additional npm packages installed:
 
-`npm install @apollo/client apollo-upload-client graphql graphql-ws`
+`npm install @apollo/client apollo-upload-client`
 
 ```js
 
