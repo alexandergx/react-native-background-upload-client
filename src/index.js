@@ -163,10 +163,10 @@ export interface UploadLinkOptions {
 };
 
 export interface UploadCallbacks {
-  onError?: (e: any) => void,
-  onCancelled?: (e: any) => void,
-  onProgress?: (e: any) => void,
-  onCompleted?: (e: any) => void,
+  onError?: (e) => void,
+  onCancelled?: (e) => void,
+  onProgress?: (e) => void,
+  onCompleted?: (e) => void,
 };
 
 export interface ExtendedContext {
@@ -228,7 +228,7 @@ export const createUploadLink: (options: UploadLinkOptions) => ApolloLink = ({
         { http: { includeExtensions }, options: { uri }, },
         contextConfig
       )
-      const { files } = extractFiles(body, '', (file: any): file is any => {
+      const { files } = extractFiles(body, '', (file: any): file => {
         return customIsExtractableFile(file)
       })
       const operations = {
@@ -254,7 +254,7 @@ export const createUploadLink: (options: UploadLinkOptions) => ApolloLink = ({
             body: JSON.stringify(body),
           })
             .then((response: any) => {
-              if (!response.ok) return response.text().then((e: any) => { throw new Error(e) })
+              if (!response.ok) return response.text().then((e) => { throw new Error(e) })
               return response.json()
             })
             .then(data => {
@@ -280,7 +280,7 @@ export const createUploadLink: (options: UploadLinkOptions) => ApolloLink = ({
           })
           Promise.all(promises)
             .then((results) => {
-              results.forEach((result) => observer.next(result as FetchResult))
+              results.forEach((result) => observer.next(result))
               observer.complete()
               canSuspendIfBackground()
             })
@@ -288,7 +288,7 @@ export const createUploadLink: (options: UploadLinkOptions) => ApolloLink = ({
         })
       }
     })
-  } catch(e: any) {
+  } catch(e) {
     console.log('[REACT-NATIVE-GRAPHQL-BACKGROUND-UPLOAD ERROR] ', e)
     throw new Error(e)
   }
