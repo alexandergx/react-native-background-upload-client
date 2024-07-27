@@ -2,12 +2,15 @@
   "name": "react-native-graphql-background-upload",
   "version": "1.0.0",
   "description": "Handle multipart file uploads to your Graphql server from your React Native app.",
-  "main": "src/index.ts",
+  "main": "src/index.js",
   "scripts": {
+    "start": "node src/index.js",
+    "test": "jest",
+    "lint": "eslint src/**/*"
   },
   "repository": {
     "type": "git",
-    "url": "https://https://github.com/alexandergx/react-native-graphql-background-upload.git"
+    "url": "https://github.com/alexandergx/react-native-graphql-background-upload.git"
   },
   "keywords": [
     "NSURLSession",
@@ -25,9 +28,9 @@
   "author": "https://github.com/alexandergx",
   "license": "MIT",
   "bugs": {
-    "url": "https://https://github.com/alexandergx/react-native-graphql-background-upload/issues"
+    "url": "https://github.com/alexandergx/react-native-graphql-background-upload/issues"
   },
-  "homepage": "https://https://github.com/alexandergx/react-native-graphql-background-upload#readme",
+  "homepage": "https://github.com/alexandergx/react-native-graphql-background-upload#readme",
   "devDependencies": {
     "@react-native-community/eslint-config": "^0.0.7",
     "@semantic-release/commit-analyzer": "^6.3.3",
@@ -70,8 +73,6 @@
   "dependencies": {
     "@apollo/client": "^3.11.1",
     "extract-files": "^11.0.0",
-    "graphql": "^16.9.0",
-    "install": "^0.13.0",
-    "npm": "^10.8.2"
+    "graphql": "^16.9.0"
   }
 }
