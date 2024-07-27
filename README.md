@@ -9,11 +9,11 @@ Currently only supports iOS.
 
 ## 1. Install package
 
-`npm install --save github:alexandergx/react-native-graphql-background-upload`
+`npm install --save react-native-graphql-background-upload`
 
 or
 
-`yarn add github:alexandergx/react-native-graphql-background-upload`
+`yarn add react-native-graphql-background-upload`
 
 ## 2. Link Native Code
 
