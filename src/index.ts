@@ -126,7 +126,7 @@ export interface ExtendedContext {
   callbacks?: UploadCallbacks,
 }
 
-const NativeModule = NativeModules.VydiaRNFileUploader
+const NativeModule = NativeModules.RNGraphqlFileUploader
 const eventEmitter = new NativeEventEmitter(NativeModule)
 const eventPrefix = 'RNGraphqlFileUploader-'
 
