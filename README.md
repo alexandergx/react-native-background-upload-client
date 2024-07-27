@@ -11,10 +11,6 @@ Currently only supports iOS.
 
 `npm install --save react-native-background-upload-client`
 
-or
-
-`yarn add react-native-background-upload-client`
-
 ## 2. Link Native Code
 
 ### Autolinking (React Native >= 0.60)
