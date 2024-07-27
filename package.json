@@ -19,7 +19,8 @@
     "background",
     "upload",
     "react-native",
-    "react"
+    "react",
+    "apollo"
   ],
   "peerDependencies": {
     "react": "*",
