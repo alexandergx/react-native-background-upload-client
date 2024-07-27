@@ -129,4 +129,6 @@ declare module "react-native-background-apollo-upload-client" {
         static createUploadLink(options: UploadLinkOptions): ApolloLink
     }
 
+    export const createUploadLink: typeof Upload.createUploadLink;
+
 }
