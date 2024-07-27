@@ -1,4 +1,4 @@
-# react-native-graphql-background-upload
+# react-native-background-apollo-upload-client
 Handle multipart file uploads to your Graphql server from your React Native app with Apollo.
 
 Currently only supports iOS.
@@ -9,11 +9,11 @@ Currently only supports iOS.
 
 ## 1. Install package
 
-`npm install --save react-native-graphql-background-upload`
+`npm install --save react-native-background-apollo-upload-client`
 
 or
 
-`yarn add react-native-graphql-background-upload`
+`yarn add react-native-background-apollo-upload-client`
 
 ## 2. Link Native Code
 
@@ -25,14 +25,14 @@ or
 
 ### Automatic Native Library Linking (React Native < 0.60)
 
-`react-native link react-native-graphql-background-upload`
+`react-native link react-native-background-apollo-upload-client`
 
 ### Or, Manually Link It
 
 #### iOS
 
 1. In the XCode's "Project navigator", right click on your project's Libraries folder ➜ `Add Files to <...>`
-2. Go to `node_modules` ➜ `react-native-graphql-background-upload` ➜ `ios` ➜ select `RNGraphqlFileUploader.xcodeproj`
+2. Go to `node_modules` ➜ `react-native-background-apollo-upload-client` ➜ `ios` ➜ select `RNGraphqlFileUploader.xcodeproj`
 3. Add `RNGraphqlFileUploader.a` to `Build Phases -> Link Binary With Libraries`
 
 ## 3. Expo
@@ -47,6 +47,6 @@ To use this library with [Expo](https://expo.io) one must first detach (eject) t
 import { createUploadLink, } from 'apollo-upload-client'
 
 // ... and replace it with this!
-import { createUploadLink, } from 'react-native-graphql-background-upload'
+import { createUploadLink, } from 'react-native-background-apollo-upload-client'
 
 ```

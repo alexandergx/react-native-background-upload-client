@@ -7,7 +7,7 @@ import { ApolloLink, FetchResult, Observable, } from '@apollo/client/core';
 import { selectHttpOptionsAndBody, fallbackHttpConfig, } from '@apollo/client/link/http';
 import { print, } from 'graphql/language/printer';
 import { extractFiles, isExtractableFile, } from 'extract-files';
-import { MultipartUploadOptions, NotificationOptions } from 'react-native-graphql-background-upload';
+import { MultipartUploadOptions, NotificationOptions } from 'react-native-background-apollo-upload-client';
 
 export type UploadEvent =
   | 'progress'
