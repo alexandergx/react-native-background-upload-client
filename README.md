@@ -1,5 +1,5 @@
 # react-native-background-upload-client
-Handle multipart file uploads to your Graphql server from your React Native app with Apollo.
+Handle multipart file uploads to your GraphQL server from your React Native app with Apollo.
 
 Currently only supports iOS.
 
