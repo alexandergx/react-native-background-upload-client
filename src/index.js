@@ -3,7 +3,7 @@
  * Handles HTTP graphql background file uploads from an iOS device.
  */
 import {Platform, NativeModules, NativeEventEmitter} from 'react-native';
-import { ApolloLink, FetchResult, Observable, } from '@apollo/client/core';
+import { ApolloLink, Observable, } from '@apollo/client/core';
 import { selectHttpOptionsAndBody, fallbackHttpConfig, } from '@apollo/client/link/http';
 import { print, } from 'graphql/language/printer';
 import { extractFiles, isExtractableFile, } from 'extract-files';
@@ -163,10 +163,10 @@ export interface UploadLinkOptions {
 };
 
 export interface UploadCallbacks {
-  onError?: (e) => void,
-  onCancelled?: (e) => void,
-  onProgress?: (e) => void,
-  onCompleted?: (e) => void,
+  onError?: (e: any) => void,
+  onCancelled?: (e: any) => void,
+  onProgress?: (e: any) => void,
+  onCompleted?: (e: any) => void,
 };
 
 export interface ExtendedContext {
@@ -228,7 +228,7 @@ export const createUploadLink: (options: UploadLinkOptions) => ApolloLink = ({
         { http: { includeExtensions }, options: { uri }, },
         contextConfig
       )
-      const { files } = extractFiles(body, '', (file: any): file => {
+      const { files } = extractFiles(body, '', (file: any) => {
         return customIsExtractableFile(file)
       })
       const operations = {
@@ -254,7 +254,7 @@ export const createUploadLink: (options: UploadLinkOptions) => ApolloLink = ({
             body: JSON.stringify(body),
           })
             .then((response: any) => {
-              if (!response.ok) return response.text().then((e) => { throw new Error(e) })
+              if (!response.ok) return response.text().then((e: any) => { throw new Error(e) })
               return response.json()
             })
             .then(data => {
