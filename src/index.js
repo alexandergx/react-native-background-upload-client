@@ -170,7 +170,7 @@ export interface UploadCallbacks {
 };
 
 export interface ExtendedContext {
-  headers: { 'access-token': string | null | undefined, }
+  headers: { 'access-token': string | null | undefined, },
   callbacks?: UploadCallbacks,
 };
 
