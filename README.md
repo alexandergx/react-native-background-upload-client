@@ -50,3 +50,42 @@ import { createUploadLink, } from 'apollo-upload-client'
 import { createUploadLink, } from 'react-native-background-upload-client'
 
 ```
+
+# Setting up Apollo Client for File Uploads
+
+This section provides an in-depth example of setting up the Apollo Client and using `react-native-background-upload-client` to upload a file to your Graphql server from your React Native app. Ensure you have these additional npm packages installed:
+
+`npm install @apollo/client apollo-upload-client graphql graphql-ws`
+
+```js
+
+import { createUploadLink, } from 'react-native-background-upload-client'
+import { ApolloClient, InMemoryCache, split, gql, } from '@apollo/client'
+import { GraphQLWsLink, } from '@apollo/client/link/subscriptions'
+import { getMainDefinition, } from '@apollo/client/utilities'
+import { ReactNativeFile, } from 'apollo-upload-client'
+import { createClient, } from 'graphql-ws'
+import { useMutation, } from '@apollo/client'
+
+// Define your GraphQL server URL
+const serverUrl = 'https://your-server-url/graphql'
+
+// Initialize the Apollo Client
+const apolloClient = new ApolloClient({
+  link: split(
+    ({ query }) => {
+      const definition = getMainDefinition(query)
+      return definition.kind === 'OperationDefinition' && definition.operation === 'subscription'
+    },
+    new GraphQLWsLink(createClient({ url: serverUrl, })),
+    createUploadLink({ uri: serverUrl, })
+  ),
+})
+
+// Define and use your graphql mutation within a functional component
+const [uploadFile] = useMutation(gql`mutation($file: Upload) { uploadFile(input: { image: $file }) }`)
+
+// Upload the file to your server within an asynchronous function
+const response = await uploadFile({ variables: { file: new ReactNativeFile({ uri: 'path-to-file', name: 'file', }), }, })
+
+```

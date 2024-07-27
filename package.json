@@ -1,6 +1,6 @@
 {
   "name": "react-native-background-upload-client",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Handle multipart file uploads to your Graphql server from your React Native app.",
   "main": "src/index.js",
   "scripts": {
