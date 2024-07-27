@@ -81,49 +81,47 @@ export type NotificationOptions = {
 }
 
 export interface UploadOptions {
-  url: string,
-  path: string,
+  url: string
+  path: string
   type?: ContentType.Raw | ContentType.Multipart
   method?: HttpMethod.Post | HttpMethod.Get | HttpMethod.Put | HttpMethod.Patch | HttpMethod.Delete
   field?: string
-  customUploadId?: string,
-  parameters?: {[key: string]: string}, // parameters are supported only in multipart type
-  headers?: { [index: string]: string, },
-  // Android notification settings
-  notification?: Partial<NotificationOptions>
+  customUploadId?: string
+  parameters?: {[ key: string]: string, } // parameters are supported only in multipart type
+  headers?: { [index: string]: string, }
+  notification?: Partial<NotificationOptions> // Android notification settings
   /**
    * AppGroup defined in XCode for extensions. Necessary when trying to upload things via this library
    * in the context of ShareExtension.
    */
   appGroup?: string
-  // Necessary only for multipart type upload
 }
 
 export interface MultipartUploadOptions extends UploadOptions {
-  type: ContentType.Multipart,
-  field: string,
-  parameters?: { [index: string]: string, },
+  type: ContentType.Multipart
+  field: string
+  parameters?: { [index: string]: string, }
 }
 
 export type NotificationArgs = { enabled?: boolean, }
 
 export interface UploadLinkOptions {
-  uri: string,
-  isExtractableFile?: (file: any) => boolean,
-  includeExtensions?: boolean,
-  headers?: Record<string, string>,
+  uri: string
+  isExtractableFile?: (file: any) => boolean
+  includeExtensions?: boolean
+  headers?: Record<string, string>
 }
 
 export interface UploadCallbacks {
-  onError?: (e: any) => void,
-  onCancelled?: (e: any) => void,
-  onProgress?: (e: any) => void,
-  onCompleted?: (e: any) => void,
+  onError?: (e: any) => void
+  onCancelled?: (e: any) => void
+  onProgress?: (e: any) => void
+  onCompleted?: (e: any) => void
 }
 
 export interface ExtendedContext {
-  headers: { 'access-token': string | null | undefined, },
-  callbacks?: UploadCallbacks,
+  headers: { 'access-token': string | null | undefined, }
+  callbacks?: UploadCallbacks
 }
 
 const NativeModule = NativeModules.RNGraphqlFileUploader
@@ -290,23 +288,24 @@ export const createUploadLink: (options: UploadLinkOptions) => ApolloLink = ({
       const combinedHeaders = { ...headers, ...contextConfig.headers, }
       if (parts.length === 0) {
         return new Observable<FetchResult>((observer: any) => {
-          fetch(uri, { method: HttpMethod.Post, headers: { ...combinedHeaders, 'Content-Type': 'application/json', }, body: JSON.stringify(body), })
-            .then((response: any) => {
-              if (!response.ok) return response.text().then((e: any) => { throw new Error(e) })
-              return response.json()
-            })
-            .then(data => {
-              observer.next(data)
-              observer.complete()
-            })
-            .catch(observer.error.bind(observer))
+          fetch(uri, {
+            method: HttpMethod.Post,
+            headers: { ...combinedHeaders, 'Content-Type': 'application/json', },
+            body: JSON.stringify(body),
+          }).then((response: any) => {
+            if (!response.ok) return response.text().then((e: any) => { throw new Error(e) })
+            return response.json()
+          }).then(data => {
+            observer.next(data)
+            observer.complete()
+          }).catch(observer.error.bind(observer))
         })
       } else {
         return new Observable<FetchResult>((observer) => {
           const promises = parts.map((part) => {
             const specificMap = { [part.name]: map[part.name] }
             const options: MultipartUploadOptions = {
-              headers: { ...combinedHeaders },
+              headers: { ...combinedHeaders, },
               parameters: { operations: JSON.stringify(operations), map: JSON.stringify(specificMap), },
               url: uri,
               type: ContentType.Multipart,

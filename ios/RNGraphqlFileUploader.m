@@ -3,7 +3,6 @@
 #import <React/RCTEventEmitter.h>
 #import <React/RCTBridgeModule.h>
 #import <Photos/Photos.h>
-
 #import "RNGraphqlFileUploader.h"
 
 @implementation RNGraphqlFileUploader{
@@ -17,7 +16,6 @@ RCT_EXPORT_MODULE();
 
 static NSString *BACKGROUND_SESSION_ID = @"ReactNativeBackgroundUpload";
 static RNGraphqlFileUploader *sharedInstance;
-
 
 + (BOOL)requiresMainQueueSetup {
     return YES;
@@ -105,7 +103,6 @@ static RNGraphqlFileUploader *sharedInstance;
         //NSLog(@"RNBU setBackgroundSessionCompletionHandler");
     }
 }
-
 
 /*
  Gets file information for the path specified.  Example valid path is: file:///var/mobile/Containers/Data/Application/3C8A0EFB-A316-45C0-A30A-761BF8CCF2F8/tmp/trim.A5F76017-14E9-4890-907E-36A045AF9436.MOV
@@ -201,7 +198,6 @@ RCT_EXPORT_METHOD(getFileInfo:(NSString *)path resolve:(RCTPromiseResolveBlock)r
  */
 RCT_EXPORT_METHOD(startUpload:(NSDictionary *)options resolve:(RCTPromiseResolveBlock)resolve reject:(RCTPromiseRejectBlock)reject)
 {
-
     NSString *uploadUrl = options[@"url"];
     __block NSString *fileURI = options[@"path"] ?: @"";
     NSString *method = options[@"method"] ?: @"POST";
@@ -211,17 +207,14 @@ RCT_EXPORT_METHOD(startUpload:(NSDictionary *)options resolve:(RCTPromiseResolve
     NSDictionary *headers = options[@"headers"];
     NSDictionary *parameters = options[@"parameters"];
 
-
     NSString *thisUploadId = customUploadId;
 
     if(!thisUploadId){
         @synchronized(self)
         {
             thisUploadId = [NSString stringWithFormat:@"%lu", uploadId++];
-
         }
     }
-
 
     @try {
         NSURL *requestUrl = [NSURL URLWithString: uploadUrl];
@@ -268,7 +261,6 @@ RCT_EXPORT_METHOD(startUpload:(NSDictionary *)options resolve:(RCTPromiseResolve
             [request setHTTPBody: httpBody];
             uploadTask = [[self urlSession] uploadTaskWithStreamedRequest:request];
 
-
         } else {
             if (parameters.count > 0) {
                 reject(@"RNGraphqlFileUploader", @"Parameters supported only in multipart type", nil);
@@ -305,7 +297,6 @@ RCT_EXPORT_METHOD(cancelUpload: (NSString *)cancelUploadId resolve:(RCTPromiseRe
     }];
     resolve([NSNumber numberWithBool:YES]);
 }
-
 
 /*
  * Returns remaining allowed background time
@@ -375,9 +366,7 @@ RCT_REMAP_METHOD(beginBackgroundTask, beginBackgroundTaskResolver:(RCTPromiseRes
 
 }
 
-
 RCT_EXPORT_METHOD(endBackgroundTask: (NSUInteger)taskId resolve:(RCTPromiseResolveBlock)resolve reject:(RCTPromiseRejectBlock)reject){
-
     @try{
         if(taskId != UIBackgroundTaskInvalid){
             [[UIApplication sharedApplication] endBackgroundTask: taskId];
@@ -392,16 +381,12 @@ RCT_EXPORT_METHOD(endBackgroundTask: (NSUInteger)taskId resolve:(RCTPromiseResol
     }
 }
 
-
-
 - (NSData *)createBodyWithBoundary:(NSString *)boundary
                          path:(NSString *)path
                          parameters:(NSDictionary *)parameters
                          fieldName:(NSString *)fieldName {
 
     NSMutableData *httpBody = [NSMutableData data];
-
-
 
     NSString *operationsValue = parameters[@"operations"];
     [httpBody appendData:[[NSString stringWithFormat:@"--%@\r\n", boundary] dataUsingEncoding:NSUTF8StringEncoding]];
@@ -412,8 +397,6 @@ RCT_EXPORT_METHOD(endBackgroundTask: (NSUInteger)taskId resolve:(RCTPromiseResol
     [httpBody appendData:[[NSString stringWithFormat:@"--%@\r\n", boundary] dataUsingEncoding:NSUTF8StringEncoding]];
     [httpBody appendData:[[NSString stringWithFormat:@"Content-Disposition: form-data; name=\"map\"\r\n\r\n"] dataUsingEncoding:NSUTF8StringEncoding]];
     [httpBody appendData:[[NSString stringWithFormat:@"%@\r\n", mapValue] dataUsingEncoding:NSUTF8StringEncoding]];
-
-
 
     // resolve path
     if ([path length] > 0){
@@ -429,7 +412,6 @@ RCT_EXPORT_METHOD(endBackgroundTask: (NSUInteger)taskId resolve:(RCTPromiseResol
         [httpBody appendData:[[NSString stringWithFormat:@"Content-Type: %@\r\n\r\n", mimetype] dataUsingEncoding:NSUTF8StringEncoding]];
         [httpBody appendData:data];
         [httpBody appendData:[@"\r\n" dataUsingEncoding:NSUTF8StringEncoding]];
-
     }
 
     [httpBody appendData:[[NSString stringWithFormat:@"--%@--\r\n", boundary] dataUsingEncoding:NSUTF8StringEncoding]];
@@ -484,7 +466,6 @@ didCompleteWithError:(NSError *)error {
     } else {
         [data setObject:[NSNull null] forKey:@"responseBody"];
     }
-
 
     if (error == nil) {
         [self _sendEventWithName:@"RNGraphqlFileUploader-completed" body:data];
