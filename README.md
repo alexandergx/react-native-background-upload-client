@@ -59,8 +59,8 @@ This section provides an in-depth example of setting up the Apollo Client and us
 
 ```js
 
-import { ApolloClient, InMemoryCache, useMutation, gql, } from '@apollo/client'
 import { createUploadLink, } from 'react-native-background-upload-client'
+import { ApolloClient, InMemoryCache, useMutation, gql, } from '@apollo/client'
 import { ReactNativeFile, } from 'apollo-upload-client'
 
 // Define your GraphQL server URL
