@@ -1,4 +1,4 @@
-import { ApolloLink } from '@apollo/client/core'
+import { ApolloLink, RequestHandler } from '@apollo/client/core'
 import { UploadLinkOptions } from './src'
 import { EventSubscription } from 'react-native'
 
@@ -126,7 +126,7 @@ declare module "react-native-background-apollo-upload-client" {
         static getRemainingBgTime(): Promise<number>
         static beginBackgroundTask(): Promise<number | null>
         static endBackgroundTask(id: number): void
-        static createUploadLink(options: UploadLinkOptions): ApolloLink
+        static createUploadLink(options: UploadLinkOptions): ApolloLink | RequestHandler | undefined
     }
 
     export const createUploadLink: typeof Upload.createUploadLink;
