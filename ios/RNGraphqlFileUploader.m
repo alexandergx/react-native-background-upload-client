@@ -137,7 +137,7 @@ RCT_EXPORT_METHOD(getFileInfo:(NSString *)path resolve:(RCTPromiseResolveBlock)r
         resolve(params);
     }
     @catch (NSException *exception) {
-        reject(@"RN Uploader", exception.name, nil);
+        reject(@"RNGraphqlFileUploader", exception.name, nil);
     }
 }
 
@@ -167,7 +167,7 @@ RCT_EXPORT_METHOD(getFileInfo:(NSString *)path resolve:(RCTPromiseResolveBlock)r
     if (!asset) {
         NSMutableDictionary* details = [NSMutableDictionary dictionary];
         [details setValue:@"Asset could not be fetched. Are you missing permissions?" forKey:NSLocalizedDescriptionKey];
-        completionHandler(nil,  [NSError errorWithDomain:@"RNUploader" code:5 userInfo:details]);
+        completionHandler(nil,  [NSError errorWithDomain:@"RNGraphqlFileUploader" code:5 userInfo:details]);
         return;
     }
     PHAssetResource *assetResource = [[PHAssetResource assetResourcesForAsset:asset] firstObject];
@@ -248,7 +248,7 @@ RCT_EXPORT_METHOD(startUpload:(NSDictionary *)options resolve:(RCTPromiseResolve
             [self copyAssetToFile:fileURI completionHandler:^(NSString * _Nullable tempFileUrl, NSError * _Nullable error) {
                 if (error) {
                     dispatch_group_leave(group);
-                    reject(@"RN Uploader", @"Asset could not be copied to temp file.", nil);
+                    reject(@"RNGraphqlFileUploader", @"Asset could not be copied to temp file.", nil);
                     return;
                 }
                 fileURI = tempFileUrl;
@@ -271,7 +271,7 @@ RCT_EXPORT_METHOD(startUpload:(NSDictionary *)options resolve:(RCTPromiseResolve
 
         } else {
             if (parameters.count > 0) {
-                reject(@"RN Uploader", @"Parameters supported only in multipart type", nil);
+                reject(@"RNGraphqlFileUploader", @"Parameters supported only in multipart type", nil);
                 return;
             }
 
@@ -285,7 +285,7 @@ RCT_EXPORT_METHOD(startUpload:(NSDictionary *)options resolve:(RCTPromiseResolve
     }
     @catch (NSException *exception) {
         //NSLog(@"RNBU startUpload error: %@", exception);
-        reject(@"RN Uploader", exception.name, nil);
+        reject(@"RNGraphqlFileUploader", exception.name, nil);
     }
 }
 
@@ -388,7 +388,7 @@ RCT_EXPORT_METHOD(endBackgroundTask: (NSUInteger)taskId resolve:(RCTPromiseResol
     }
     @catch (NSException *exception) {
         //NSLog(@"RNBU endBackgroundTask error: %@", exception);
-        reject(@"RN Uploader", exception.name, nil);
+        reject(@"RNGraphqlFileUploader", exception.name, nil);
     }
 }
 
