@@ -82,10 +82,18 @@ const apolloClient = new ApolloClient({
   ),
 })
 
-// Define and use your graphql mutation within a functional component
-const [uploadFile] = useMutation(gql`mutation($file: Upload) { uploadFile(input: { image: $file }) }`)
+function MyReactComponent() {
+  // Define and use your graphql mutation within a functional component
+  const [uploadFile] = useMutation(gql`mutation($file: Upload) { uploadFile(input: { image: $file }) }`)
 
-// Upload the file to your server within an asynchronous function
-const response = await uploadFile({ variables: { file: new ReactNativeFile({ uri: 'path-to-file', name: 'file', }), }, })
+  const handleUpload = async () => {
+    // Upload the file to your server within an asynchronous function
+    const response = await uploadFile({ variables: { file: new ReactNativeFile({ uri: 'path-to-file', name: 'file', }), }, })
+  }
+
+  return (
+    // UI components here
+  )
+}
 
 ```
