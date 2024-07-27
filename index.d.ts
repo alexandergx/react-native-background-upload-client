@@ -2,6 +2,26 @@ declare module "react-native-background-upload-client" {
     import { ApolloLink, RequestHandler } from '@apollo/client/core'
     import { EventSubscription } from 'react-native'
 
+    export enum UploadListenerEvent {
+        Progress = 'progress',
+        Error = 'error',
+        Cancelled = 'cancelled',
+        Completed = 'completed',
+    }
+
+    export enum HttpMethod {
+        Post = 'POST',
+        Get = 'GET',
+        Put = 'PUT',
+        Patch = 'PATCH',
+        Delete = 'DELETE'
+    }
+
+    export enum ContentType {
+        Raw = 'raw',
+        Multipart = 'multipart',
+    }
+
     export interface EventData {
         id: string
     }
@@ -34,7 +54,6 @@ declare module "react-native-background-upload-client" {
         includeExtensions?: boolean
         headers?: Record<string, string>
       }
-
 
     export interface NotificationOptions {
         /**
@@ -85,26 +104,6 @@ declare module "react-native-background-upload-client" {
          * Sets notification cancelled message   { onCancelledMessage: "Video upload was cancelled" }
          */
         onCancelledMessage: string
-    }
-
-    export enum UploadListenerEvent {
-        Progress = 'progress',
-        Error = 'error',
-        Cancelled = 'cancelled',
-        Completed = 'completed',
-    }
-
-    export enum HttpMethod {
-        Post = 'POST',
-        Get = 'GET',
-        Put = 'PUT',
-        Patch = 'PATCH',
-        Delete = 'DELETE'
-    }
-
-    export enum ContentType {
-        Raw = 'raw',
-        Multipart = 'multipart',
     }
 
     export interface UploadOptions {
