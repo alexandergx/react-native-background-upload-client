@@ -72,7 +72,7 @@ function MyReactComponent() {
   // Define and use your GraphQL mutation within a functional component
   const [uploadFile] = useMutation(gql`
     mutation($file: Upload) {
-      uploadFile(input: { image: $file })
+      uploadFile(input: { file: $file })
     }
   `)
 
