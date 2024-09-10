@@ -59,12 +59,15 @@ import { createUploadLink, } from 'react-native-background-upload-client'
 import { ApolloClient, InMemoryCache, useMutation, gql, } from '@apollo/client'
 import { ReactNativeFile, } from 'apollo-upload-client'
 
-// Define your GraphQL server URL
 const serverUrl = 'https://your-server-url/graphql'
+const filePath = '/path/to/file'
+const fileName = 'file-name'
 
 // Initialize the Apollo Client
 const apolloClient = new ApolloClient({
-  link: createUploadLink({ uri: serverUrl, }),
+  link: createUploadLink({
+    uri: serverUrl,
+  }),
   cache: new InMemoryCache(),
 })
 
@@ -72,7 +75,9 @@ function MyReactComponent() {
   // Define and use your GraphQL mutation within a functional component
   const [uploadFile] = useMutation(gql`
     mutation($file: Upload) {
-      uploadFile(input: { file: $file })
+      uploadFile(input: {
+        file: $file,
+      })
     }
   `)
 
@@ -80,7 +85,10 @@ function MyReactComponent() {
   const handleUpload = async () => {
     const response = await uploadFile({
       variables: {
-        file: new ReactNativeFile({ uri: 'path-to-file', name: 'file', }),
+        file: new ReactNativeFile({
+          uri: filePath,
+          name: fileName,
+        }),
       },
     })
   }
